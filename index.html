@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clearline AI — Built for Insurance Brokerages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f0e8;
+      --ink: #1a1a18;
+      --ink-light: #4a4a44;
+      --rule: #d4cfc4;
+      --accent: #2a5c3f;
+      --accent-light: #3a7a55;
+      --warm-white: #faf8f4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--warm-white);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--warm-white);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-logo {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--ink-light);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* HERO */
+    .hero-wrap {
+      position: relative;
+      border-bottom: 1px solid var(--rule);
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2400&q=80');
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(250,248,244,0.55) 0%, rgba(250,248,244,0.7) 70%, rgba(250,248,244,0.98) 100%);
+    }
+
+    .hero-wrap {
+      min-height: 600px;
+    }
+
+    .hero h1 {
+      text-shadow: 0 2px 24px rgba(250,248,244,0.85), 0 1px 2px rgba(250,248,244,0.6);
+    }
+
+    .hero-sub {
+      text-shadow: 0 1px 12px rgba(250,248,244,0.85);
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 7rem 2rem 5rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      text-shadow: 0 1px 8px rgba(250,248,244,0.85);
+    }
+
+    .hero h1 {
+      font-family: 'Lora', serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--ink);
+      max-width: 580px;
+      margin-bottom: 2.5rem;
+      font-weight: 500;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: background 0.2s;
+      box-shadow: 0 2px 12px rgba(42,92,63,0.25);
+    }
+
+    .hero-cta:hover { background: var(--accent-light); }
+
+    .hero-location {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-shadow: 0 1px 8px rgba(250,248,244,0.85);
+    }
+
+    /* STATS ROW */
+    .stats {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .stat-item {}
+
+    .stat-num {
+      font-family: 'Lora', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--ink-light);
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+    }
+
+    /* PAIN INTRO */
+    .pain-intro {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .pain-intro p {
+      font-size: 1.15rem;
+      color: var(--ink-light);
+      font-weight: 300;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .pain-intro p strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .pain-list {
+      margin-top: 2rem;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .pain-list li {
+      font-size: 0.95rem;
+      color: var(--ink-light);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .pain-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* SECTION SHARED */
+    .section {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4.5rem 2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    .section h2 {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 2rem;
+    }
+
+    .section h2 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      color: var(--ink-light);
+      font-weight: 300;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .about-text p strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .about-callouts {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
+    .callout {
+      border-left: 2px solid var(--accent);
+      padding-left: 1.2rem;
+    }
+
+    .callout-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .callout p {
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      line-height: 1.6;
+    }
+
+    .callout p strong { color: var(--ink); font-weight: 500; }
+
+    /* PROCESS */
+    .process-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: 1.5rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      color: var(--rule);
+      font-weight: 600;
+      padding-top: 0.1rem;
+    }
+
+    .step-content h3 {
+      font-family: 'Lora', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-content p {
+      font-size: 0.95rem;
+      color: var(--ink-light);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    /* DELIVERABLES */
+    .deliverables-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .deliverable-card {
+      background: var(--warm-white);
+      border: 1px solid var(--rule);
+      padding: 1.8rem 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .deliverable-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .deliverable-icon {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 1.1rem;
+      color: var(--accent);
+    }
+
+    .deliverable-card h3 {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+    }
+
+    .deliverable-card p {
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .deliverables-footer {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .deliverables-price {
+      font-family: 'Lora', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .deliverables-price span {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--ink-light);
+      margin-left: 0.5rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .deliverables-note {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      font-weight: 300;
+    }
+
+    /* WHAT WE FIX */
+    .problems-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .problem-item {
+      padding: 1.8rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .problem-item:nth-child(odd) {
+      padding-right: 2rem;
+      border-right: 1px solid var(--rule);
+    }
+
+    .problem-item:nth-child(even) {
+      padding-left: 2rem;
+    }
+
+    .problem-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .problem-item h3 {
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      line-height: 1.35;
+    }
+
+    .problem-item p {
+      font-size: 0.875rem;
+      color: var(--ink-light);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* TESTIMONIAL */
+    .testimonial {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .testimonial blockquote {
+      font-family: 'Lora', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonial-source {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 2rem;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    .result-item {}
+
+    .result-change {
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+
+    .result-label {
+      font-size: 0.78rem;
+      color: var(--ink-light);
+      line-height: 1.4;
+    }
+
+    /* CTA */
+    .cta-section {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .cta-section h2 {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section h2 em { font-style: italic; color: var(--accent); }
+
+    .cta-section p {
+      font-size: 1rem;
+      color: var(--ink-light);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 2rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .cta-btn:hover { background: var(--accent-light); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem;
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .footer-right {
+      font-size: 0.8rem;
+      color: var(--ink-light);
+    }
+
+    .footer-right a {
+      color: var(--ink-light);
+      text-decoration: none;
+    }
+
+    .footer-right a:hover { color: var(--ink); }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .deliverables-grid { grid-template-columns: 1fr; }
+      .problems-grid { grid-template-columns: 1fr; }
+      .problem-item:nth-child(odd) { padding-right: 0; border-right: none; }
+      .problem-item:nth-child(even) { padding-left: 0; }
+      .results-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Clearline AI</a>
+    <ul class="nav-links">
+      <li><a href="#process">How It Works</a></li>
+      <li><a href="#deliverables">What You Get</a></li>
+      <li><a href="#problems">What We Fix</a></li>
+      <li><a href="#contact">Book a Call</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-wrap">
+    <div class="hero-bg"></div>
+    <section class="hero">
+      <p class="hero-eyebrow">For Insurance Brokerages</p>
+      <h1>Your team is <em>too good</em> for busywork.</h1>
+      <p class="hero-sub">We map your brokerage's operational bottlenecks and build AI tools that eliminate them — so your team spends time on clients, not paperwork.</p>
+      <a href="#contact" class="hero-cta">Book a Free 20-Min Call</a>
+      <p class="hero-location">Toronto · Vancouver · Calgary · Serving brokerages across Canada</p>
+    </section>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-item">
+      <div class="stat-num">12+</div>
+      <div class="stat-label">Hours saved per employee / week</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3wk</div>
+      <div class="stat-label">Average time to first deployed tool</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">Technical staff required on your end</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">Years inside the industry building these tools</div>
+    </div>
+  </div>
+
+  <!-- PAIN INTRO -->
+  <div class="pain-intro">
+    <p>Insurance brokerages of every size lose <strong>20–35% of producer time</strong> to the same handful of repetitive, document-heavy workflows. The same problems, at every brokerage.</p>
+    <p>The AI revolution doesn't require a tech team. It requires someone who understands what's actually broken — and knows how to fix it inside real workflows.</p>
+    <ul class="pain-list">
+      <li>Submissions buried in email inboxes</li>
+      <li>COI requests eating your team's afternoons</li>
+      <li>Renewal outreach done manually every cycle</li>
+      <li>Carrier quotes requiring hours of comparison work</li>
+    </ul>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <p class="section-label">The Difference</p>
+    <h2>A decade inside the industry. <em>Built to fix it from within.</em></h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I spent over ten years as a practicing insurance broker — quoting, binding, renewing, and managing accounts across commercial lines. I lived the late-night renewal pushes, the COI request pile-ups, the manual data entry that never seemed to end.</p>
+        <p>I didn't set out to build a tech company. I set out to <strong>stop losing hours every week to work that a machine should be doing.</strong> So I learned the tools, built the automations, and started using them in my own workflow.</p>
+        <p><strong>Clearline AI is not a consultant parachuting in from tech.</strong> I am a broker who learned to build — and now I help other brokerages do the same.</p>
+      </div>
+      <div class="about-callouts">
+        <div class="callout">
+          <div class="callout-label">The Core Difference</div>
+          <p><strong>Industry-first, not tech-first.</strong> Most AI vendors learn insurance after the fact. I came from the brokerage floor. That means I know what's actually painful — and what a realistic solution looks like inside your real workflows.</p>
+        </div>
+        <div class="callout">
+          <div class="callout-label">What That Means For You</div>
+          <p><strong>No translation layer.</strong> When you describe a problem, I already know what you mean. We skip the education phase and go straight to solving.</p>
+        </div>
+        <div class="callout">
+          <div class="callout-label">What I Won't Do</div>
+          <p><strong>Oversell what AI can do.</strong> I'll tell you honestly when a problem is worth automating and when it isn't. The goal is to give your team their time back.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section" id="process">
+    <p class="section-label">The Process</p>
+    <h2>Three steps, <em>no fluff.</em></h2>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Process Audit</h3>
+          <p>Two focused sessions mapping your current workflows — from submission intake to renewal cycles. You walk away knowing exactly where time is lost and what AI can realistically fix.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>Build &amp; Deploy</h3>
+          <p>We build the actual tools — no PowerPoint decks, no vendor shopping. Custom AI automations tailored to your AMS, your email stack, and your team's real workflows. Tested, documented, trained.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Measure &amp; Expand</h3>
+          <p>We track hours saved, errors reduced, throughput gained. Monthly clear reporting. As your team gets comfortable, we identify the next high-value automation and build that too.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DELIVERABLES -->
+  <section class="section" id="deliverables">
+    <p class="section-label">What You Get</p>
+    <h2>The Process Audit, <em>delivered.</em></h2>
+    <div class="deliverables-grid">
+
+      <div class="deliverable-card">
+        <svg class="deliverable-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        <h3>Workflow Map</h3>
+        <p>A complete diagram of your current submission, renewal, COI, and quote workflows — with every handoff, delay, and bottleneck identified.</p>
+      </div>
+
+      <div class="deliverable-card">
+        <svg class="deliverable-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        <h3>Audit Report</h3>
+        <p>A detailed written report covering hours lost per workflow, estimated annual cost in producer time, and the specific automation opportunities ranked by impact.</p>
+      </div>
+
+      <div class="deliverable-card">
+        <svg class="deliverable-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        <h3>Build Roadmap</h3>
+        <p>A prioritized 90-day plan showing which automations to build first, in what order, with realistic timelines and projected hours-saved for each.</p>
+      </div>
+
+      <div class="deliverable-card">
+        <svg class="deliverable-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          <line x1="9" y1="10" x2="15" y2="10"></line>
+        </svg>
+        <h3>Live Walkthrough</h3>
+        <p>A 60-minute working session where we walk you and your team through the findings, answer questions, and align on next steps — virtual or in-person.</p>
+      </div>
+
+    </div>
+    <div class="deliverables-footer">
+      <div class="deliverables-price">$2,500 <span>flat fee · no surprises</span></div>
+      <div class="deliverables-note">Two-week turnaround from kickoff to delivery.</div>
+    </div>
+  </section>
+
+  <!-- WHAT WE FIX -->
+  <section class="section" id="problems">
+    <p class="section-label">What We Fix</p>
+    <h2>The same problems, <em>at every brokerage.</em></h2>
+    <div class="problems-grid">
+      <div class="problem-item">
+        <div class="problem-tag">Submission Intake</div>
+        <h3>Submissions buried in email inboxes</h3>
+        <p>Emails, PDFs, spreadsheets — manually put together for insurers. We automate submissions to insurers to make sure you get the best possible terms from the markets.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-tag">Certificates of Insurance</div>
+        <h3>COI requests eating your team's time</h3>
+        <p>Repetitive requests consuming hours each week. We build a system that drafts and delivers certificates in under a minute.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-tag">Renewal Management</div>
+        <h3>Renewal outreach done manually every cycle</h3>
+        <p>90-day renewal cycles requiring manual outreach sequences. We automate the entire follow-up chain so no renewal falls through.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-tag">Carrier Quotes</div>
+        <h3>Carrier quotes requiring hours of comparison work</h3>
+        <p>Hours reading carrier decks to produce client-ready comparisons. We build a tool that parses and summarizes proposals in minutes.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-tag">Binder &amp; Policy Issuance</div>
+        <h3>Manual binder and policy issuance workflows</h3>
+        <p>Policy documentation requiring repeated manual steps across your AMS, carriers, and clients. We streamline issuance into a single automated flow.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-tag">Invoicing &amp; Premium Financing</div>
+        <h3>Invoicing and premium finance coordination</h3>
+        <p>Manual invoice generation, premium finance agreement prep, and follow-up on outstanding balances. We automate the full billing cycle from issuance to collection.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section class="testimonial">
+    <blockquote>"We used to spend three afternoons a week just on COIs and renewal chasing. Now that's handled before lunch."</blockquote>
+    <div class="testimonial-source">Regional P&amp;C Brokerage · 18 Producers</div>
+    <div class="results-grid">
+      <div class="result-item">
+        <div class="result-change">4 days → 8 min</div>
+        <div class="result-label">COI turnaround time</div>
+      </div>
+      <div class="result-item">
+        <div class="result-change">41% → 79%</div>
+        <div class="result-label">Renewal response rate</div>
+      </div>
+      <div class="result-item">
+        <div class="result-change">~14 hrs</div>
+        <div class="result-label">Hours saved per week</div>
+      </div>
+      <div class="result-item">
+        <div class="result-change">18 days</div>
+        <div class="result-label">Time to first automation</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <p class="section-label">Get Started</p>
+    <h2>20 minutes to see <em>if we're a fit.</em></h2>
+    <p>Book a free call. We'll walk through your current workflow, identify the single highest-impact automation for your brokerage, and tell you exactly what it would take to build it.</p>
+    <a href="mailto:hamza@clearlineai.ca" class="cta-btn">Book Your Free Call →</a>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Clearline AI</div>
+    <div class="footer-right">
+      <a href="mailto:hamza@clearlineai.ca">hamza@clearlineai.ca</a> · Built for insurance brokerages.
+    </div>
+  </footer>
+
+</body>
+</html>
