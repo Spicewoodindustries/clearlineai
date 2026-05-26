@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security & Data Handling — Clearline AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f0e8;
+      --ink: #1a1a18;
+      --ink-light: #4a4a44;
+      --rule: #d4cfc4;
+      --accent: #2a5c3f;
+      --accent-light: #3a7a55;
+      --warm-white: #faf8f4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--warm-white);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--warm-white);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-logo {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--ink-light);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* PAGE HEADER */
+    .page-header {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 5rem 2rem 3.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .page-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.4rem;
+    }
+
+    .page-header h1 {
+      font-family: 'Lora', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 1.4rem;
+    }
+
+    .page-header h1 em {
+      font-style: italic;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .page-header .lede {
+      font-size: 1.12rem;
+      color: var(--ink-light);
+      font-weight: 300;
+      line-height: 1.75;
+      max-width: 620px;
+    }
+
+    .page-header .lede strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* SECTION SHARED */
+    .section {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    .section h2 {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+
+    .section h2 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .section-intro {
+      font-size: 1rem;
+      color: var(--ink-light);
+      font-weight: 300;
+      line-height: 1.75;
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* PRACTICE LIST (data handling) */
+    .practice-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .practice {
+      display: grid;
+      grid-template-columns: 2.2rem 1fr;
+      gap: 1.3rem;
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .practice:last-child { border-bottom: none; }
+
+    .practice-mark {
+      color: var(--accent);
+      padding-top: 0.15rem;
+    }
+
+    .practice-mark svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .practice-body h3 {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--ink);
+    }
+
+    .practice-body p {
+      font-size: 0.93rem;
+      color: var(--ink-light);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    .practice-body p strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* SUBPROCESSORS */
+    .subproc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .subproc-card {
+      border: 1px solid var(--rule);
+      padding: 1.6rem 1.5rem;
+      background: var(--warm-white);
+    }
+
+    .subproc-card h3 {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: var(--ink);
+    }
+
+    .subproc-role {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.7rem;
+    }
+
+    .subproc-card p {
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .subproc-note {
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      font-weight: 300;
+      line-height: 1.7;
+      padding: 1.3rem 1.5rem;
+      border-left: 2px solid var(--accent);
+      background: var(--cream);
+    }
+
+    .subproc-note strong { color: var(--ink); font-weight: 500; }
+
+    /* RESIDENCY / STANDARDS — definition rows */
+    .def-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .def-row {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 2rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+
+    .def-row:last-child { border-bottom: none; }
+
+    .def-term {
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .def-desc {
+      font-size: 0.93rem;
+      color: var(--ink-light);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    .def-desc strong { color: var(--ink); font-weight: 500; }
+
+    /* COMMITMENTS — table-stakes badges */
+    .commit-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .commit {
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .commit:nth-child(odd) {
+      padding-right: 2rem;
+      border-right: 1px solid var(--rule);
+    }
+
+    .commit:nth-child(even) {
+      padding-left: 2rem;
+    }
+
+    .commit h3 {
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .commit h3 svg {
+      width: 17px;
+      height: 17px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .commit p {
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* HONEST NOTE */
+    .honest {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .honest-card {
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--accent);
+      padding: 2.2rem 2rem;
+      background: var(--warm-white);
+    }
+
+    .honest-card .section-label { margin-bottom: 0.9rem; }
+
+    .honest-card p {
+      font-size: 0.98rem;
+      color: var(--ink-light);
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    .honest-card p strong { color: var(--ink); font-weight: 500; }
+
+    /* CTA */
+    .cta-section {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .cta-section h2 {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section h2 em { font-style: italic; color: var(--accent); }
+
+    .cta-section p {
+      font-size: 1rem;
+      color: var(--ink-light);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 2rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .cta-btn:hover { background: var(--accent-light); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem;
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .footer-right {
+      font-size: 0.8rem;
+      color: var(--ink-light);
+    }
+
+    .footer-right a {
+      color: var(--ink-light);
+      text-decoration: none;
+    }
+
+    .footer-right a:hover { color: var(--ink); }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .subproc-grid { grid-template-columns: 1fr; }
+      .def-row { grid-template-columns: 1fr; gap: 0.5rem; }
+      .commit-list { grid-template-columns: 1fr; }
+      .commit:nth-child(odd) { padding-right: 0; border-right: none; }
+      .commit:nth-child(even) { padding-left: 0; }
+      .nav-links { display: none; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Clearline AI</a>
+    <ul class="nav-links">
+      <li><a href="index.html#process">How It Works</a></li>
+      <li><a href="index.html#deliverables">What You Get</a></li>
+      <li><a href="index.html#problems">What We Fix</a></li>
+      <li><a href="#contact">Talk to Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <p class="page-eyebrow">Security &amp; Data Handling</p>
+    <h1>Your data is the most sensitive thing <em>your firm handles.</em></h1>
+    <p class="lede">We treat it that way. This page lays out — in plain terms — how ClearLine handles your data, where it goes, who can access it, and the standards we build against. <strong>No vague reassurances. Just specifics you can hand to your IT or compliance team.</strong></p>
+  </header>
+
+  <!-- DATA HANDLING -->
+  <section class="section">
+    <p class="section-label">How We Handle Your Data</p>
+    <h2>The practices behind every engagement.</h2>
+    <p class="section-intro">These apply to every project, from the first discovery call onward. They're the answers to the questions a careful buyer actually asks.</p>
+
+    <div class="practice-list">
+
+      <div class="practice">
+        <div class="practice-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <div class="practice-body">
+          <h3>Encrypted in transit and at rest</h3>
+          <p>All data moving between you, our systems, and our infrastructure providers is encrypted using industry-standard TLS. Data stored during a project is encrypted at rest.</p>
+        </div>
+      </div>
+
+      <div class="practice">
+        <div class="practice-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 11l-3 3-1.5-1.5"></path>
+          </svg>
+        </div>
+        <div class="practice-body">
+          <h3>Tightly scoped access</h3>
+          <p>Access to client data is limited to what's required to deliver the work. Where systems support it, we use role-based access controls that mirror your organizational structure, so people only see what they should.</p>
+        </div>
+      </div>
+
+      <div class="practice">
+        <div class="practice-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+            <line x1="12" y1="2" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <div class="practice-body">
+          <h3>We never train models on your data</h3>
+          <p><strong>Your data is never used to train AI models</strong> — not ours, and not our providers'. We build on enterprise AI services specifically because they contractually commit to the same. Your information is used to do your work, and nothing else.</p>
+        </div>
+      </div>
+
+      <div class="practice">
+        <div class="practice-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"></path>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            <line x1="10" y1="11" x2="10" y2="17"></line>
+            <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+        </div>
+        <div class="practice-body">
+          <h3>Retained only as long as needed</h3>
+          <p>We retain client data only for as long as a project requires it, and we delete it on request. You stay in control of your information for the entire lifecycle of an engagement.</p>
+        </div>
+      </div>
+
+      <div class="practice">
+        <div class="practice-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="12" y1="18" x2="12" y2="12"></line>
+            <line x1="9" y1="15" x2="15" y2="15"></line>
+          </svg>
+        </div>
+        <div class="practice-body">
+          <h3>Logged and auditable</h3>
+          <p>The automations we build maintain logging across the interactions they handle, so there's a clear, reviewable record of what the system did and when.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SUBPROCESSORS -->
+  <section class="section">
+    <p class="section-label">Our Infrastructure</p>
+    <h2>Built on enterprise infrastructure — <em>and we name it.</em></h2>
+    <p class="section-intro">Mature vendors tell you exactly who touches your data. We won't pretend nothing leaves the building. Here's the stack your data passes through, and the terms that govern it.</p>
+
+    <div class="subproc-grid">
+      <div class="subproc-card">
+        <h3>Anthropic (Claude)</h3>
+        <div class="subproc-role">AI Processing</div>
+        <p>Powers the language and reasoning in our automations. Operates under enterprise terms that prohibit training on customer data. Processing occurs in the United States.</p>
+      </div>
+      <div class="subproc-card">
+        <h3>Microsoft Azure</h3>
+        <div class="subproc-role">Cloud Infrastructure</div>
+        <p>Hosts the automations we build and run. Azure can be provisioned in the region your firm requires where data residency is a constraint.</p>
+      </div>
+    </div>
+
+    <p class="subproc-note"><strong>On data residency:</strong> If your firm has a strict data-residency requirement, we'll be direct with you early. Cloud infrastructure can be provisioned in the region you need, but AI processing through Anthropic currently occurs in the United States under enterprise data-protection terms. We'd rather tell you this on the first call than surprise you during a security review.</p>
+  </section>
+
+  <!-- STANDARDS -->
+  <section class="section">
+    <p class="section-label">Standards &amp; Compliance</p>
+    <h2>The frameworks we build against.</h2>
+    <p class="section-intro">We design our controls and processes around the standards that matter most in Canadian insurance. Here's where we stand — stated honestly.</p>
+
+    <div class="def-list">
+      <div class="def-row">
+        <div class="def-term">PIPEDA &amp; Quebec's Law 25</div>
+        <div class="def-desc">We design our data-handling practices around the requirements of Canada's federal privacy law (PIPEDA) and Quebec's Law 25, including data minimization, purpose limitation, and supporting your obligations to your own clients.</div>
+      </div>
+      <div class="def-row">
+        <div class="def-term">SOC 2 principles</div>
+        <div class="def-desc">Our security controls are designed around the SOC 2 principles of security, availability, and confidentiality. <strong>Formal SOC 2 certification is on our roadmap as we scale</strong> — we're building the practices toward it now rather than claiming a badge we haven't earned.</div>
+      </div>
+      <div class="def-row">
+        <div class="def-term">Cross-border handling</div>
+        <div class="def-desc">Where data crosses borders through our AI processing layer, it's governed by enterprise data-protection agreements. For engagements touching health-related information, we align handling with the applicable privacy standards on both sides of the border.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMITMENTS -->
+  <section class="section">
+    <p class="section-label">What We'll Sign</p>
+    <h2>The paperwork serious vendors do.</h2>
+    <p class="section-intro">These are table stakes for working with a firm that handles sensitive data. We're glad to put them in writing before any data changes hands.</p>
+
+    <div class="commit-list">
+      <div class="commit">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Mutual NDA
+        </h3>
+        <p>We'll sign a mutual non-disclosure agreement before reviewing any of your workflows or data.</p>
+      </div>
+      <div class="commit">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Data Processing Agreement
+        </h3>
+        <p>We'll execute a DPA defining exactly how your data is handled, stored, and protected throughout an engagement.</p>
+      </div>
+      <div class="commit">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Prompt incident notification
+        </h3>
+        <p>If a security incident ever affects your data, we commit to notifying you promptly and transparently.</p>
+      </div>
+      <div class="commit">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Deletion on request
+        </h3>
+        <p>At the end of an engagement, or any time you ask, we delete your data and confirm it in writing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HONEST NOTE -->
+  <div class="honest">
+    <div class="honest-card">
+      <p class="section-label">Straight Talk</p>
+      <p>We'd rather under-promise and be precise than over-claim and lose your trust. <strong>If there's a security question we can't answer yet, we'll tell you.</strong> If a requirement is something we'd need to build toward, we'll say so plainly and tell you what it would take. In an industry built on assessing risk honestly, we think that's the only way worth operating.</p>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <p class="section-label">Security Review</p>
+    <h2>Questions about security, data handling, or compliance? <em>Let's talk.</em></h2>
+    <p>Send your security questionnaire, your compliance checklist, or just your concerns. We'll give you straight answers — and tell you honestly where we stand on each one.</p>
+    <a href="https://cal.com/clearlineai" target="_blank" class="cta-btn">Book a Security Conversation →</a>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Clearline AI</div>
+    <div class="footer-right">
+      <a href="mailto:hamza@clearlineai.ca">hamza@clearlineai.ca</a> · Built for insurance professionals.
+    </div>
+  </footer>
+
+</body>
+</html>
