@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clearline Brain Demo — Private LLM for Your Firm</title>
+  <meta name="description" content="Interactive demo of Clearline Brain: a private LLM that becomes the operational brain of your business, searching files, proposals, policies, and prior work — on your servers only." />
+  <link rel="canonical" href="https://clearlineai.ca/demo.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,800&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #101820;
+      --ink-soft: #3a4654;
+      --mist: #e8eef3;
+      --paper: #f4f7fa;
+      --line: #c9d4df;
+      --accent: #0e7c86;
+      --accent-deep: #0a5f67;
+      --accent-glow: rgba(14, 124, 134, 0.14);
+      --white: #ffffff;
+      --panel: #ffffff;
+      --sidebar: #121a22;
+      --sidebar-soft: #1c2834;
+      --good: #1f8a5b;
+      --font-display: "Bricolage Grotesque", Georgia, serif;
+      --font-body: "Source Sans 3", "Segoe UI", sans-serif;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem clamp(1rem, 3vw, 1.5rem);
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      text-decoration: none;
+      font-size: 1.05rem;
+    }
+
+    .brand span { color: var(--accent); font-weight: 650; }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent-deep);
+      background: var(--accent-glow);
+      border: 1px solid rgba(14, 124, 134, 0.25);
+      padding: 0.35rem 0.7rem;
+    }
+
+    .pill i {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 50%;
+      background: var(--good);
+      display: inline-block;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 0.9rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .btn-ghost:hover { border-color: var(--ink-soft); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    .btn-primary:hover { background: var(--accent-deep); }
+
+    .btn-ink {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr) 300px;
+      min-height: calc(100vh - 54px);
+    }
+
+    .sidebar {
+      background: var(--sidebar);
+      color: rgba(255, 255, 255, 0.88);
+      padding: 1.25rem 1rem 1.5rem;
+      border-right: 1px solid #243140;
+    }
+
+    .sidebar h2 {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #7ecfd6;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .source {
+      padding: 0.7rem 0.65rem;
+      border: 1px solid transparent;
+      margin-bottom: 0.35rem;
+      cursor: default;
+    }
+
+    .source.is-active {
+      background: var(--sidebar-soft);
+      border-color: rgba(126, 207, 214, 0.28);
+    }
+
+    .source-name {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+
+    .source-meta {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 100% 0%, var(--accent-glow), transparent 55%),
+        var(--paper);
+    }
+
+    .intro {
+      padding: 1.25rem 1.35rem 0.75rem;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .intro h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.35rem;
+    }
+
+    .intro p {
+      color: var(--ink-soft);
+      max-width: 46rem;
+      font-size: 0.98rem;
+      line-height: 1.55;
+    }
+
+    .prompts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.85rem 1.35rem;
+      border-bottom: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .prompt-chip {
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.86rem;
+      font-weight: 500;
+      padding: 0.45rem 0.7rem;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .prompt-chip:hover,
+    .prompt-chip.is-active {
+      border-color: var(--accent);
+      background: rgba(14, 124, 134, 0.06);
+    }
+
+    .chat {
+      flex: 1;
+      overflow: auto;
+      padding: 1.25rem 1.35rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .msg {
+      max-width: 48rem;
+      animation: rise 0.45s var(--ease);
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: var(--ink);
+      color: var(--white);
+      padding: 0.85rem 1rem;
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .msg.assistant {
+      align-self: stretch;
+    }
+
+    .msg-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.45rem;
+    }
+
+    .answer {
+      background: var(--white);
+      border: 1px solid var(--line);
+      padding: 1rem 1.05rem;
+      line-height: 1.6;
+      color: var(--ink);
+      font-size: 0.98rem;
+    }
+
+    .answer p + p { margin-top: 0.75rem; }
+
+    .answer strong { font-weight: 600; }
+
+    .typing {
+      display: inline-flex;
+      gap: 0.3rem;
+      padding: 0.85rem 1rem;
+      background: var(--white);
+      border: 1px solid var(--line);
+      width: fit-content;
+    }
+
+    .typing span {
+      width: 0.4rem;
+      height: 0.4rem;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: bounce 1s infinite ease-in-out;
+    }
+
+    .typing span:nth-child(2) { animation-delay: 0.15s; }
+    .typing span:nth-child(3) { animation-delay: 0.3s; }
+
+    .composer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.65rem;
+      padding: 0.9rem 1.35rem 1.15rem;
+      border-top: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .composer input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      padding: 0.75rem 0.85rem;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .composer input:focus {
+      outline: 2px solid rgba(14, 124, 134, 0.35);
+      outline-offset: 1px;
+    }
+
+    .rail {
+      background: var(--white);
+      border-left: 1px solid var(--line);
+      padding: 1.15rem 1rem 1.4rem;
+      overflow: auto;
+    }
+
+    .rail h2 {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.9rem;
+      font-weight: 700;
+    }
+
+    .rail-empty {
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .hit {
+      border: 1px solid var(--line);
+      padding: 0.8rem 0.75rem;
+      margin-bottom: 0.55rem;
+      animation: rise 0.45s var(--ease);
+    }
+
+    .hit-title {
+      font-weight: 650;
+      font-size: 0.92rem;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .hit-meta {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      margin-bottom: 0.4rem;
+    }
+
+    .hit-snip {
+      font-size: 0.86rem;
+      color: var(--ink-soft);
+      line-height: 1.45;
+    }
+
+    .hit-score {
+      margin-top: 0.45rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-deep);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .footnote {
+      margin-top: 1rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      line-height: 1.45;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.45; }
+      40% { transform: translateY(-4px); opacity: 1; }
+    }
+
+    @media (max-width: 980px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar, .rail { display: none; }
+      .shell.show-sources .sidebar,
+      .shell.show-hits .rail { display: block; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">Clearline <span>Brain</span></a>
+    <div class="top-actions">
+      <span class="pill"><i></i> On your servers · closed loop</span>
+      <a class="btn btn-ghost" href="/">Back to site</a>
+      <a class="btn btn-primary" href="https://cal.com/clearlineai" target="_blank" rel="noopener noreferrer">Book a call</a>
+    </div>
+  </header>
+
+  <div class="shell" id="shell">
+    <aside class="sidebar" aria-label="Firm knowledge sources">
+      <h2>Firm knowledge</h2>
+      <div class="source is-active">
+        <div class="source-name">Proposals &amp; quotes</div>
+        <div class="source-meta">214 files · indexed</div>
+      </div>
+      <div class="source is-active">
+        <div class="source-name">Contracts &amp; SOWs</div>
+        <div class="source-meta">86 files · indexed</div>
+      </div>
+      <div class="source is-active">
+        <div class="source-name">SOPs &amp; playbooks</div>
+        <div class="source-meta">41 files · indexed</div>
+      </div>
+      <div class="source is-active">
+        <div class="source-name">Client folders</div>
+        <div class="source-meta">128 folders · indexed</div>
+      </div>
+      <div class="source is-active">
+        <div class="source-name">Emails &amp; notes</div>
+        <div class="source-meta">Connected mailbox · firm only</div>
+      </div>
+      <p class="footnote" style="color:rgba(255,255,255,0.5); border-color:#2a3a4a;">
+        Demo data for Northline Services — a fictional SMB. In production this indexes <em>your</em> files on <em>your</em> network.
+      </p>
+    </aside>
+
+    <section class="main">
+      <div class="intro">
+        <h1>Your business, with a brain.</h1>
+        <p>
+          Ask in plain language. Clearline Brain pulls related proposals, policies, prior jobs, and internal notes from across the firm — then answers with sources. Nothing leaves your servers.
+        </p>
+      </div>
+
+      <div class="prompts" role="list" aria-label="Try a question">
+        <button class="prompt-chip" type="button" data-demo="0">Similar past jobs</button>
+        <button class="prompt-chip" type="button" data-demo="1">Policy + client history</button>
+        <button class="prompt-chip" type="button" data-demo="2">Assemble a briefing</button>
+      </div>
+
+      <div class="chat" id="chat" aria-live="polite"></div>
+
+      <form class="composer" id="composer">
+        <label class="skip" for="q" style="position:absolute;left:-9999px;">Ask Clearline Brain</label>
+        <input id="q" name="q" type="text" placeholder="Ask anything about how your firm works…" autocomplete="off" />
+        <button class="btn btn-ink" type="submit">Ask</button>
+      </form>
+    </section>
+
+    <aside class="rail" aria-label="Retrieved files">
+      <h2>Retrieved for this answer</h2>
+      <div id="hits">
+        <p class="rail-empty">Run a question to see the files and notes Brain pulls in.</p>
+      </div>
+      <p class="footnote">
+        Retrieval stays inside your network. No prompts or documents are sent to OpenAI, Anthropic, Google, or other LLM providers.
+      </p>
+    </aside>
+  </div>
+
+  <script>
+    (function () {
+      var demos = [
+        {
+          question: "Find prior jobs like the Maple Street storefront reno — what did we quote and which materials worked?",
+          answer: [
+            "I found <strong>4 closely related jobs</strong> and pulled the winning quote pattern.",
+            "<strong>Closest match:</strong> Harbor Avenue facade (Mar 2025) — quoted at $48,600, used powder-coated aluminum trim and low-VOC exterior paint. Client approved in 6 days.",
+            "<strong>Also useful:</strong> Cedar &amp; Pine storefront (Nov 2024) and Westgate retail refresh (Jan 2025). Both used the same glazing vendor and a 30% deposit structure.",
+            "Recommended starting point for Maple Street: reuse the Harbor Avenue scope outline, swap in the Westgate glazing line item, and keep the Cedar deposit terms."
+          ],
+          hits: [
+            { title: "Quote_HarborAve_Facade_2025-03.pdf", meta: "Proposals · Mar 12, 2025", snip: "Exterior storefront package… aluminum trim… 30% deposit…", score: "98% match" },
+            { title: "SOW_CedarPine_Storefront.docx", meta: "Contracts · Nov 3, 2024", snip: "Materials schedule includes glazing vendor North Glass…", score: "91% match" },
+            { title: "JobNotes_Westgate_Refresh.md", meta: "Client folders · Jan 18, 2025", snip: "Paint system held up through winter; client referenced Maple Street…", score: "87% match" },
+            { title: "Vendor_NorthGlass_Pricing.xlsx", meta: "Ops · shared ref", snip: "Current lead time 3 weeks for storefront units…", score: "Related" }
+          ]
+        },
+        {
+          question: "What’s our deposit / cancellation policy, and has the Rivera account asked about it before?",
+          answer: [
+            "Per the <strong>Client Intake Playbook v4</strong>, deposits are <strong>30% non-refundable after materials are ordered</strong>, and cancellations before ordering refund 50% of the deposit.",
+            "On the Rivera account, Maya Rivera emailed on <strong>Sep 2, 2025</strong> asking whether the deposit was refundable if permits slipped. Alex replied with the playbook language and attached the signed SOW clause 4.2.",
+            "No later dispute appears in the Rivera folder. Safe to restate the same clause if they ask again."
+          ],
+          hits: [
+            { title: "Client_Intake_Playbook_v4.pdf", meta: "SOPs · updated Aug 2025", snip: "Deposits: 30% due on acceptance… cancellation before materials…", score: "Policy source" },
+            { title: "SOW_Rivera_Kitchen_2025.pdf", meta: "Contracts · Aug 21, 2025", snip: "Clause 4.2 Deposit & Cancellation…", score: "Account match" },
+            { title: "Email_Rivera_deposit_question.eml", meta: "Mailbox · Sep 2, 2025", snip: "Just confirming — if permits are delayed, is the deposit refundable?", score: "Prior ask" },
+            { title: "Email_Alex_reply_Rivera.eml", meta: "Mailbox · Sep 2, 2025", snip: "Sharing clause 4.2 from your SOW…", score: "Prior reply" }
+          ]
+        },
+        {
+          question: "Build a one-page briefing for tomorrow’s kickoff with Lakeside Dental — pricing history, open items, and similar clinics we’ve done.",
+          answer: [
+            "<strong>Lakeside Dental kickoff briefing</strong>",
+            "<strong>Relationship:</strong> Quoted twice in 2024; won the reception refresh in Feb 2025 ($19,400). Phase 2 ops-area discussion opened Oct 2025 — no signed SOW yet.",
+            "<strong>Open items:</strong> Confirm after-hours access, finalize vinyl flooring SKU from the Feb job, and decide whether Phase 2 reuses the same paint package.",
+            "<strong>Similar clinics:</strong> Brookside Family Dentistry (waiting-room reno) and Harbor Dental (ops corridor). Both preferred weekend installs and a single point of contact on site.",
+            "I can draft a one-pager from these sources if you want it exported."
+          ],
+          hits: [
+            { title: "Folder_Lakeside_Dental/", meta: "Client folders · 17 files", snip: "Quotes, photos, signed Phase 1 SOW, Oct 2025 notes…", score: "Account hub" },
+            { title: "Quote_Lakeside_Phase2_draft.pdf", meta: "Proposals · Oct 9, 2025", snip: "Ops-area package draft — awaiting flooring selection…", score: "Open item" },
+            { title: "Case_Brookside_WaitingRoom.pdf", meta: "Proposals · 2024", snip: "Weekend install window; single site contact…", score: "Similar" },
+            { title: "JobCloseout_HarborDental.docx", meta: "Client folders · 2024", snip: "Lessons: paint package reuse saved 4 days…", score: "Similar" }
+          ]
+        }
+      ];
+
+      var fallback = {
+        answer: [
+          "In a live Clearline Brain install, I’d search your indexed proposals, contracts, SOPs, and client folders for that — then answer with citations.",
+          "This demo is scripted around three common operator questions. Try <strong>Similar past jobs</strong>, <strong>Policy + client history</strong>, or <strong>Assemble a briefing</strong>."
+        ],
+        hits: [
+          { title: "Your firm’s file store", meta: "Connected on your servers", snip: "Policies, quotes, SOWs, emails, job notes — firm only.", score: "Private" }
+        ]
+      };
+
+      var chat = document.getElementById("chat");
+      var hits = document.getElementById("hits");
+      var form = document.getElementById("composer");
+      var input = document.getElementById("q");
+      var chips = Array.prototype.slice.call(document.querySelectorAll(".prompt-chip"));
+      var busy = false;
+
+      function clearNode(node) {
+        while (node.firstChild) node.removeChild(node.firstChild);
+      }
+
+      function renderHits(list) {
+        clearNode(hits);
+        list.forEach(function (item) {
+          var el = document.createElement("article");
+          el.className = "hit";
+          el.innerHTML =
+            '<div class="hit-title"></div>' +
+            '<div class="hit-meta"></div>' +
+            '<div class="hit-snip"></div>' +
+            '<div class="hit-score"></div>';
+          el.querySelector(".hit-title").textContent = item.title;
+          el.querySelector(".hit-meta").textContent = item.meta;
+          el.querySelector(".hit-snip").textContent = item.snip;
+          el.querySelector(".hit-score").textContent = item.score;
+          hits.appendChild(el);
+        });
+      }
+
+      function addUser(text) {
+        var el = document.createElement("div");
+        el.className = "msg user";
+        el.textContent = text;
+        chat.appendChild(el);
+        chat.scrollTop = chat.scrollHeight;
+      }
+
+      function addTyping() {
+        var el = document.createElement("div");
+        el.className = "msg assistant";
+        el.id = "typing";
+        el.innerHTML = '<div class="msg-label">Clearline Brain</div><div class="typing"><span></span><span></span><span></span></div>';
+        chat.appendChild(el);
+        chat.scrollTop = chat.scrollHeight;
+        return el;
+      }
+
+      function addAnswer(paragraphs) {
+        var typing = document.getElementById("typing");
+        if (typing) typing.remove();
+        var el = document.createElement("div");
+        el.className = "msg assistant";
+        var html = '<div class="msg-label">Clearline Brain</div><div class="answer">';
+        paragraphs.forEach(function (p) { html += "<p>" + p + "</p>"; });
+        html += "</div>";
+        el.innerHTML = html;
+        chat.appendChild(el);
+        chat.scrollTop = chat.scrollHeight;
+      }
+
+      function setActiveChip(index) {
+        chips.forEach(function (chip, i) {
+          chip.classList.toggle("is-active", i === index);
+        });
+      }
+
+      function runDemo(index) {
+        if (busy) return;
+        var demo = demos[index];
+        if (!demo) return;
+        busy = true;
+        setActiveChip(index);
+        clearNode(chat);
+        addUser(demo.question);
+        addTyping();
+        renderHits([]);
+        hits.innerHTML = '<p class="rail-empty">Searching firm knowledge…</p>';
+
+        window.setTimeout(function () {
+          renderHits(demo.hits);
+          addAnswer(demo.answer);
+          busy = false;
+        }, 900);
+      }
+
+      function runCustom(question) {
+        if (busy || !question) return;
+        busy = true;
+        setActiveChip(-1);
+        addUser(question);
+        addTyping();
+        hits.innerHTML = '<p class="rail-empty">Searching firm knowledge…</p>';
+        window.setTimeout(function () {
+          renderHits(fallback.hits);
+          addAnswer(fallback.answer);
+          busy = false;
+        }, 700);
+      }
+
+      chips.forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          runDemo(Number(chip.getAttribute("data-demo")));
+        });
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var value = (input.value || "").trim();
+        if (!value) return;
+        input.value = "";
+        var matched = demos.findIndex(function (d) {
+          return d.question.toLowerCase() === value.toLowerCase();
+        });
+        if (matched >= 0) runDemo(matched);
+        else runCustom(value);
+      });
+
+      // Auto-run first demo for first-time visitors / recordings
+      runDemo(0);
+    })();
+  </script>
+</body>
+</html>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clearline AI — Websites & Private LLMs for Your Firm</title>
-  <meta name="description" content="Clearline AI builds websites and deploys private, locally hosted LLMs on your servers. Closed-loop AI for your firm only — sensitive data never leaves your network." />
-  <meta property="og:title" content="Clearline AI — Websites & Private LLMs for Your Firm" />
-  <meta property="og:description" content="Modern websites, plus private LLMs that run only on your servers. Your data never goes to outside AI providers." />
+  <title>Clearline AI — Websites & a Private Business Brain</title>
+  <meta name="description" content="Clearline AI builds websites and installs a private LLM on your servers — a business brain that finds files, prior work, and answers from your own knowledge. Closed loop. Firm only." />
+  <meta property="og:title" content="Clearline AI — Websites & a Private Business Brain" />
+  <meta property="og:description" content="Modern websites, plus a private LLM that becomes the operational brain of your firm — search proposals, policies, and prior jobs without sending data outside." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://clearlineai.ca/" />
   <link rel="canonical" href="https://clearlineai.ca/" />
@@ -527,6 +527,51 @@
       max-width: 16rem;
     }
 
+    .capability-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+      margin-top: 2.75rem;
+    }
+
+    .capability-list h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.55rem;
+    }
+
+    .capability-list p {
+      color: var(--ink-soft);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    .demo-cta {
+      margin-top: 2.5rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem 1.25rem;
+    }
+
+    .demo-cta p {
+      color: var(--ink-soft);
+      max-width: 28rem;
+      font-size: 0.98rem;
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    .btn-accent:hover { background: var(--accent-deep); }
+
     /* CTA */
     .cta-band {
       position: relative;
@@ -647,6 +692,7 @@
       .who-grid,
       .process-steps,
       .proof-strip,
+      .capability-list,
       .cta-band .section {
         grid-template-columns: 1fr;
       }
@@ -692,7 +738,8 @@
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">Menu</button>
     <ul class="nav-links" id="nav-menu">
       <li><a href="#offerings">Offerings</a></li>
-      <li><a href="#private">Private LLMs</a></li>
+      <li><a href="#brain">Business brain</a></li>
+      <li><a href="demo.html">Demo</a></li>
       <li><a href="#contact" class="nav-cta">Book a call</a></li>
     </ul>
   </header>
@@ -710,12 +757,12 @@
       </div>
       <div class="hero-inner">
         <p class="hero-brand">Clearline AI</p>
-        <h1>Websites and private LLMs for your firm.</h1>
+        <h1>A website — and a private brain for your operations.</h1>
         <p class="hero-sub">
-          We build your site. We put a closed-loop LLM on your servers. Your sensitive data never leaves your network — and never goes to an outside AI provider.
+          We build your site. We install a closed-loop LLM on your servers that knows your files, proposals, policies, and prior work — so your team can ask the business itself.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="https://cal.com/clearlineai" target="_blank" rel="noopener noreferrer">Book a free call</a>
+          <a class="btn btn-primary" href="demo.html">See the brain demo</a>
           <a class="btn btn-ghost" href="#offerings">See the offerings</a>
         </div>
       </div>
@@ -727,7 +774,7 @@
           <p class="section-label">Two offerings</p>
           <h2>Clear products. No consulting fog.</h2>
           <p class="section-lead">
-            Two things we ship for small and mid-sized firms: a website that works, and a private language model that stays inside your walls.
+            Two things we ship for small and mid-sized firms: a website that works, and a private LLM that becomes the operational brain of the business.
           </p>
         </div>
 
@@ -749,14 +796,14 @@
           <li class="service-item reveal" id="private">
             <div class="service-num">02</div>
             <div>
-              <h3>Private LLMs</h3>
+              <h3>Private business brain</h3>
               <p>
-                Your own language model, hosted on your servers. Closed loop for your firm only. Prompts, documents, and client data stay on your network — they are never sent to OpenAI, Anthropic, Google, or any other LLM provider.
+                A language model installed on your servers that indexes how your firm actually works — proposals, contracts, SOPs, client folders, emails, and job notes. Ask in plain language; it pulls the right files and answers with sources.
               </p>
               <ul class="service-points">
-                <li>Runs on your hardware or your private cloud</li>
-                <li>Firm-only access — no shared tenancy with outsiders</li>
-                <li>Use AI on sensitive work without the security tradeoff</li>
+                <li>Find similar past jobs, quotes, and reference docs in seconds</li>
+                <li>Answer policy, pricing, and client-history questions from your own records</li>
+                <li>Closed loop on your network — nothing sent to outside AI providers</li>
               </ul>
             </div>
           </li>
@@ -764,18 +811,46 @@
       </section>
     </div>
 
+    <section class="section" id="brain">
+      <div class="reveal">
+        <p class="section-label">What the brain does</p>
+        <h2>Not a chatbot. Institutional memory you can ask.</h2>
+        <p class="section-lead">
+          Most of the value isn’t “AI that talks.” It’s AI that can reach across the firm’s files and surface the work you’ve already done — so people stop hunting folders and rewriting from scratch.
+        </p>
+      </div>
+      <ul class="capability-list">
+        <li class="reveal">
+          <h3>Pull related work</h3>
+          <p>Ask for jobs like the one in front of you. Brain returns prior quotes, scopes, materials, and notes that match — with the files attached.</p>
+        </li>
+        <li class="reveal">
+          <h3>Answer from your records</h3>
+          <p>Deposit rules, warranty language, vendor lead times, what you told a client last year — answered from playbooks and account history, not generic web advice.</p>
+        </li>
+        <li class="reveal">
+          <h3>Brief the next meeting</h3>
+          <p>Assemble a kickoff or renewal briefing from the account folder, open items, and similar clients you’ve already served.</p>
+        </li>
+      </ul>
+      <div class="demo-cta reveal">
+        <a class="btn btn-accent" href="demo.html">Watch it work →</a>
+        <p>Interactive demo with sample firm files. Runs in your browser — same closed-loop idea as production, on your servers.</p>
+      </div>
+    </section>
+
     <section class="section" id="who">
       <div class="reveal">
         <p class="section-label">Who it’s for</p>
-        <h2>Firms that need a site — or AI that can’t leave the building.</h2>
+        <h2>Operators drowning in their own files.</h2>
       </div>
       <div class="who-grid">
         <div class="who-copy reveal">
           <p>
-            Clearline AI works with small and mid-sized businesses that want a real web presence, and with firms that handle client, patient, or operational data too sensitive for public AI chatbots.
+            Clearline AI works with small and mid-sized businesses that need a real website — and with teams whose best knowledge is trapped in folders, inboxes, and “ask Sarah.”
           </p>
           <p>
-            If your website is outdated, or your team wants LLM help <strong>without uploading confidential work to someone else’s cloud</strong>, that’s what we build.
+            If your people waste hours hunting prior quotes or restating policy from memory, <strong>a private brain on your servers is the product</strong> — security is why it can live on the real files.
           </p>
           <div class="audience-row">
             <span>Professional firms</span>
@@ -793,7 +868,7 @@
             height="933"
             loading="lazy"
           />
-          <figcaption class="who-caption">Your site. Your servers. Your data stays yours.</figcaption>
+          <figcaption class="who-caption">Your files stay on your servers. Your team gets answers with sources.</figcaption>
         </figure>
       </div>
     </section>
@@ -816,12 +891,12 @@
           <article class="process-step reveal">
             <div class="num">02</div>
             <h3>Build</h3>
-            <p>We design and ship the website, or install and configure the model on your servers so it stays closed-loop inside your firm.</p>
+            <p>We design and ship the website, or install the model, connect your file sources, and index the knowledge your team already has.</p>
           </article>
           <article class="process-step reveal">
             <div class="num">03</div>
             <h3>Handoff</h3>
-            <p>You go live with something that works: a public site, or a private LLM your team can use without sending data to outside providers.</p>
+            <p>You go live with a public site, or a private brain your people can ask — answers with sources, still closed-loop on your network.</p>
           </article>
         </div>
       </section>
@@ -829,24 +904,24 @@
 
     <section class="section" id="proof">
       <div class="reveal">
-        <p class="section-label">Why private</p>
-        <h2>Cloud AI is powerful. It isn’t always safe for your files.</h2>
+        <p class="section-label">Why it has to be private</p>
+        <h2>The useful version needs your real files.</h2>
         <p class="section-lead">
-          Public LLM tools mean prompts and documents leave your network. A Clearline private LLM runs only for your firm, on infrastructure you control — so you get the upside without the leak risk.
+          A brain trained only on the public internet can’t find last year’s quote. Ours runs on your servers so it can use the sensitive material — client records, pricing, contracts — without sending any of it to OpenAI, Anthropic, Google, or other LLM providers.
         </p>
       </div>
       <div class="proof-strip">
         <div class="proof-item reveal">
+          <div class="proof-value">Indexed</div>
+          <div class="proof-label">Proposals, SOPs, contracts, and client folders searchable in plain language</div>
+        </div>
+        <div class="proof-item reveal">
+          <div class="proof-value">Cited</div>
+          <div class="proof-label">Answers come back with the files and notes they came from</div>
+        </div>
+        <div class="proof-item reveal">
           <div class="proof-value">Local</div>
-          <div class="proof-label">Model runs on your servers — not a shared vendor cloud</div>
-        </div>
-        <div class="proof-item reveal">
-          <div class="proof-value">Closed</div>
-          <div class="proof-label">Firm-only loop — no sensitive data shared with LLM providers</div>
-        </div>
-        <div class="proof-item reveal">
-          <div class="proof-value">Yours</div>
-          <div class="proof-label">Website and AI both delivered as finished builds you own</div>
+          <div class="proof-label">Closed loop on your hardware or private cloud — firm only</div>
         </div>
       </div>
     </section>
@@ -857,15 +932,16 @@
           <p class="section-label">Get started</p>
           <h2>Tell us which build you need.</h2>
           <p class="section-lead">
-            Website, private LLM, or both. On a short call we’ll confirm fit, rough timeline, and what we’d put on your servers or launch for your business.
+            Website, private business brain, or both. On a short call we’ll confirm fit, what to index first, and what we’d put on your servers.
           </p>
           <p class="cta-note">
             Or email <a href="mailto:hamza@clearlineai.ca">hamza@clearlineai.ca</a>
+            · <a href="demo.html">Try the demo</a>
           </p>
         </div>
         <div class="cta-panel reveal">
           <h3>Book a free intro call</h3>
-          <p>Bring your current site, or the kind of work you wish you could run through AI without leaving the building.</p>
+          <p>Bring your current site — or the folder chaos you wish a new hire could already know.</p>
           <a class="btn btn-ink" href="https://cal.com/clearlineai" target="_blank" rel="noopener noreferrer">Choose a time →</a>
         </div>
       </section>
@@ -876,7 +952,7 @@
     <div><strong>Clearline AI</strong></div>
     <div>
       <a href="mailto:hamza@clearlineai.ca">hamza@clearlineai.ca</a>
-      · Websites &amp; private LLMs for your firm
+      · Websites &amp; private business brains
     </div>
   </footer>
 
