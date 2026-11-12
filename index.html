@@ -3,823 +3,920 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clearline AI — Built for Insurance Professionals</title>
+  <title>Clearline AI — Websites & Private LLMs for Your Firm</title>
+  <meta name="description" content="Clearline AI builds websites and deploys private, locally hosted LLMs on your servers. Closed-loop AI for your firm only — sensitive data never leaves your network." />
+  <meta property="og:title" content="Clearline AI — Websites & Private LLMs for Your Firm" />
+  <meta property="og:description" content="Modern websites, plus private LLMs that run only on your servers. Your data never goes to outside AI providers." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://clearlineai.ca/" />
+  <link rel="canonical" href="https://clearlineai.ca/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,800&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --cream: #f5f0e8;
-      --ink: #1a1a18;
-      --ink-light: #4a4a44;
-      --rule: #d4cfc4;
-      --accent: #2a5c3f;
-      --accent-light: #3a7a55;
-      --warm-white: #faf8f4;
+      --ink: #101820;
+      --ink-soft: #3a4654;
+      --mist: #e8eef3;
+      --paper: #f4f7fa;
+      --line: #c9d4df;
+      --accent: #0e7c86;
+      --accent-deep: #0a5f67;
+      --accent-glow: rgba(14, 124, 134, 0.14);
+      --white: #ffffff;
+      --hero-veil: linear-gradient(
+        105deg,
+        rgba(16, 24, 32, 0.82) 0%,
+        rgba(16, 24, 32, 0.62) 48%,
+        rgba(16, 24, 32, 0.42) 100%
+      ),
+      linear-gradient(180deg, rgba(16, 24, 32, 0.45) 0%, transparent 28%, rgba(16, 24, 32, 0.35) 100%);
+      --font-display: "Bricolage Grotesque", Georgia, serif;
+      --font-body: "Source Sans 3", "Segoe UI", sans-serif;
+      --max: 1120px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--warm-white);
+      font-family: var(--font-body);
+      background: var(--paper);
       color: var(--ink);
-      font-size: 17px;
+      font-size: 1.0625rem;
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+
+    img { max-width: 100%; display: block; }
+
+    .skip {
+      position: absolute;
+      left: -9999px;
+    }
+    .skip:focus {
+      left: 1rem;
+      top: 1rem;
+      z-index: 200;
+      background: var(--white);
+      padding: 0.5rem 1rem;
     }
 
     /* NAV */
-    nav {
-      position: sticky;
+    .nav {
+      position: absolute;
       top: 0;
-      z-index: 100;
-      background: var(--warm-white);
-      border-bottom: 1px solid var(--rule);
-      padding: 0 2rem;
+      left: 0;
+      right: 0;
+      z-index: 40;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 60px;
+      padding: 1.25rem clamp(1.25rem, 4vw, 2.5rem);
+      color: var(--white);
     }
 
-    .nav-logo {
-      font-family: 'Lora', serif;
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--ink);
+    .nav-brand {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
       text-decoration: none;
-      letter-spacing: 0.01em;
+      opacity: 0;
+      animation: rise 0.9s var(--ease) 0.1s forwards;
     }
 
     .nav-links {
       display: flex;
-      gap: 2rem;
+      align-items: center;
+      gap: 1.75rem;
       list-style: none;
+      opacity: 0;
+      animation: rise 0.9s var(--ease) 0.2s forwards;
     }
 
     .nav-links a {
-      font-size: 0.875rem;
-      font-weight: 400;
-      color: var(--ink-light);
       text-decoration: none;
-      letter-spacing: 0.02em;
-      transition: color 0.2s;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.86);
+      transition: color 0.2s ease;
     }
 
-    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.55rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--white) !important;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 0;
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+    }
 
     /* HERO */
-    .hero-wrap {
+    .hero {
       position: relative;
-      border-bottom: 1px solid var(--rule);
+      min-height: 100svh;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      color: var(--white);
       overflow: hidden;
     }
 
-    .hero-bg {
+    .hero-media {
       position: absolute;
       inset: 0;
-      background-image: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2400&q=80');
-      background-size: cover;
-      background-position: center;
       z-index: 0;
     }
 
-    .hero-bg::after {
-      content: '';
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      transform: scale(1.08);
+      animation: heroZoom 18s var(--ease) forwards;
+    }
+
+    .hero-media::after {
+      content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(250,248,244,0.55) 0%, rgba(250,248,244,0.7) 70%, rgba(250,248,244,0.98) 100%);
+      background: var(--hero-veil);
     }
 
-    .hero-wrap {
-      min-height: 600px;
-    }
-
-    .hero h1 {
-      text-shadow: 0 2px 24px rgba(250,248,244,0.85), 0 1px 2px rgba(250,248,244,0.6);
-    }
-
-    .hero-sub {
-      text-shadow: 0 1px 12px rgba(250,248,244,0.85);
-    }
-
-    .hero {
+    .hero-inner {
       position: relative;
       z-index: 1;
-      max-width: 780px;
+      width: min(100%, var(--max));
       margin: 0 auto;
-      padding: 7rem 2rem 5rem;
+      padding: 7.5rem clamp(1.25rem, 4vw, 2.5rem) 4.5rem;
     }
 
-    .hero-eyebrow {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-      text-shadow: 0 1px 8px rgba(250,248,244,0.85);
+    .hero-brand {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2.6rem, 7vw, 4.8rem);
+      letter-spacing: -0.045em;
+      line-height: 0.95;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: rise 1s var(--ease) 0.25s forwards;
     }
 
     .hero h1 {
-      font-family: 'Lora', serif;
-      font-size: clamp(2.4rem, 5vw, 3.6rem);
-      font-weight: 700;
+      font-family: var(--font-display);
+      font-weight: 650;
+      font-size: clamp(1.55rem, 3.4vw, 2.35rem);
+      letter-spacing: -0.03em;
       line-height: 1.2;
-      color: var(--ink);
-      margin-bottom: 1.5rem;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      font-weight: 700;
-      color: var(--accent);
+      max-width: 16ch;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: rise 1s var(--ease) 0.4s forwards;
     }
 
     .hero-sub {
-      font-size: 1.1rem;
-      color: var(--ink);
-      max-width: 580px;
-      margin-bottom: 2.5rem;
-      font-weight: 500;
-      line-height: 1.7;
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      font-weight: 400;
+      line-height: 1.55;
+      max-width: 34rem;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: rise 1s var(--ease) 0.55s forwards;
     }
 
-    .hero-cta {
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      padding: 0.85rem 2rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      text-decoration: none;
-      transition: background 0.2s;
-      box-shadow: 0 2px 12px rgba(42,92,63,0.25);
-    }
-
-    .hero-cta:hover { background: var(--accent-light); }
-
-    .hero-location {
-      margin-top: 2rem;
-      font-size: 0.8rem;
-      color: var(--ink-light);
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-shadow: 0 1px 8px rgba(250,248,244,0.85);
-    }
-
-    /* STATS ROW */
-    .stats {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .stat-item {}
-
-    .stat-num {
-      font-family: 'Lora', serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--ink);
-      line-height: 1;
-      margin-bottom: 0.4rem;
-    }
-
-    .stat-label {
-      font-size: 0.78rem;
-      color: var(--ink-light);
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-    }
-
-    /* PAIN INTRO */
-    .pain-intro {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 4rem 2rem;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .pain-intro p {
-      font-size: 1.15rem;
-      color: var(--ink-light);
-      font-weight: 300;
-      line-height: 1.75;
-      margin-bottom: 1rem;
-    }
-
-    .pain-intro p strong {
-      color: var(--ink);
-      font-weight: 500;
-    }
-
-    .pain-list {
-      margin-top: 2rem;
-      list-style: none;
+    .hero-actions {
       display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      opacity: 0;
+      animation: rise 1s var(--ease) 0.7s forwards;
     }
 
-    .pain-list li {
-      font-size: 0.95rem;
-      color: var(--ink-light);
-      padding-left: 1.2rem;
-      position: relative;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.9rem 1.35rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s var(--ease), background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     }
 
-    .pain-list li::before {
-      content: '—';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
     }
 
-    /* SECTION SHARED */
+    .btn-primary:hover { background: var(--accent-deep); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--white);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-ink {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .btn-ink:hover { background: #1c2834; }
+
+    /* SECTIONS */
     .section {
-      max-width: 780px;
+      width: min(100%, var(--max));
       margin: 0 auto;
-      padding: 4.5rem 2rem;
-      border-bottom: 1px solid var(--rule);
+      padding: clamp(4rem, 9vw, 6.5rem) clamp(1.25rem, 4vw, 2.5rem);
     }
 
     .section-label {
-      font-size: 0.75rem;
-      font-weight: 500;
+      font-size: 0.78rem;
+      font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 1.2rem;
+      margin-bottom: 0.9rem;
     }
 
     .section h2 {
-      font-family: 'Lora', serif;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 400;
-      line-height: 1.3;
-      margin-bottom: 2rem;
-    }
-
-    .section h2 em {
-      font-style: italic;
-      color: var(--accent);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.85rem, 4vw, 2.75rem);
+      letter-spacing: -0.035em;
+      line-height: 1.12;
+      max-width: 16ch;
+      margin-bottom: 1rem;
     }
 
     .section-lead {
-      font-size: 1rem;
-      color: var(--ink-light);
-      font-weight: 300;
-      line-height: 1.7;
-      margin-top: -1rem;
-      margin-bottom: 2rem;
+      font-size: 1.12rem;
+      color: var(--ink-soft);
+      max-width: 38rem;
+      font-weight: 400;
+      line-height: 1.65;
     }
 
-    /* ABOUT */
-    .about-grid {
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* SERVICES */
+    .services-band {
+      background:
+        radial-gradient(ellipse 70% 55% at 0% 0%, var(--accent-glow), transparent 55%),
+        linear-gradient(180deg, var(--mist) 0%, var(--paper) 100%);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .services-head {
+      margin-bottom: 3rem;
+    }
+
+    .service-list {
+      list-style: none;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
+      gap: 0;
     }
 
-    .about-text p {
+    .service-item {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 1.25rem;
+      padding: 2.15rem 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .service-item:last-child { border-bottom: 1px solid var(--line); }
+
+    .service-num {
+      font-family: var(--font-display);
+      font-weight: 700;
       font-size: 1rem;
-      color: var(--ink-light);
-      font-weight: 300;
-      line-height: 1.75;
-      margin-bottom: 1rem;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      padding-top: 0.35rem;
     }
 
-    .about-text p strong {
+    .service-item h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.45rem, 2.6vw, 1.85rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.65rem;
+    }
+
+    .service-item p {
+      color: var(--ink-soft);
+      max-width: 42rem;
+      font-weight: 400;
+    }
+
+    .service-points {
+      list-style: none;
+      margin-top: 1.1rem;
+      display: grid;
+      gap: 0.45rem;
+      max-width: 38rem;
+    }
+
+    .service-points li {
+      position: relative;
+      padding-left: 1rem;
+      color: var(--ink);
+      font-size: 0.98rem;
+      font-weight: 500;
+    }
+
+    .service-points li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 0.35rem;
+      height: 0.35rem;
+      background: var(--accent);
+    }
+
+    /* WHO */
+    .who-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(2rem, 6vw, 4.5rem);
+      align-items: end;
+      margin-top: 2.75rem;
+    }
+
+    .who-copy p {
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+      max-width: 34rem;
+    }
+
+    .who-copy p strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .who-figure {
+      position: relative;
+      min-height: 380px;
+      overflow: hidden;
+    }
+
+    .who-figure img {
+      width: 100%;
+      height: 100%;
+      min-height: 380px;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(0.92) contrast(1.02);
+    }
+
+    .who-caption {
+      margin-top: 0.85rem;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+    }
+
+    .audience-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem 1.35rem;
+      margin-top: 1.75rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.98rem;
       color: var(--ink);
       font-weight: 500;
     }
 
-    .about-callouts {
-      display: flex;
-      flex-direction: column;
-      gap: 1.8rem;
+    .audience-row span {
+      position: relative;
+      padding-left: 0.9rem;
     }
 
-    .callout {
-      border-left: 2px solid var(--accent);
-      padding-left: 1.2rem;
+    .audience-row span::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 0.4rem;
+      height: 0.4rem;
+      background: var(--accent);
     }
-
-    .callout-label {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.4rem;
-    }
-
-    .callout p {
-      font-size: 0.9rem;
-      color: var(--ink-light);
-      line-height: 1.6;
-    }
-
-    .callout p strong { color: var(--ink); font-weight: 500; }
 
     /* PROCESS */
+    .process-band {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .process-band .section-label { color: #7ecfd6; }
+
+    .process-band .section-lead { color: rgba(255, 255, 255, 0.72); }
+
     .process-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .step {
       display: grid;
-      grid-template-columns: 3rem 1fr;
-      gap: 1.5rem;
-      padding: 2rem 0;
-      border-bottom: 1px solid var(--rule);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
     }
 
-    .step:last-child { border-bottom: none; }
-
-    .step-num {
-      font-family: 'Lora', serif;
-      font-size: 1.1rem;
-      color: var(--rule);
-      font-weight: 600;
-      padding-top: 0.1rem;
+    .process-step {
+      padding-top: 1.4rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
     }
 
-    .step-content h3 {
-      font-family: 'Lora', serif;
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .step-content p {
+    .process-step .num {
+      font-family: var(--font-display);
       font-size: 0.95rem;
-      color: var(--ink-light);
-      line-height: 1.65;
-      font-weight: 300;
+      font-weight: 700;
+      color: #7ecfd6;
+      margin-bottom: 1rem;
+      letter-spacing: 0.04em;
     }
 
-    .step-content p strong { color: var(--ink); font-weight: 500; }
-
-    /* DELIVERABLES */
-    .deliverables-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+    .process-step h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.65rem;
     }
 
-    .deliverable-card {
-      background: var(--warm-white);
-      border: 1px solid var(--rule);
-      padding: 1.8rem 1.6rem;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .deliverable-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    .deliverable-icon {
-      width: 36px;
-      height: 36px;
-      margin-bottom: 1.1rem;
-      color: var(--accent);
-    }
-
-    .deliverable-card h3 {
-      font-family: 'Lora', serif;
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: var(--ink);
-    }
-
-    .deliverable-card p {
-      font-size: 0.9rem;
-      color: var(--ink-light);
-      line-height: 1.6;
-      font-weight: 300;
-    }
-
-    .deliverables-footer {
-      margin-top: 2.5rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--rule);
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .deliverables-price {
-      font-family: 'Lora', serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .deliverables-price span {
-      font-size: 0.85rem;
-      font-weight: 400;
-      color: var(--ink-light);
-      margin-left: 0.5rem;
-      font-family: 'DM Sans', sans-serif;
-    }
-
-    .deliverables-note {
-      font-size: 0.85rem;
-      color: var(--ink-light);
-      font-weight: 300;
-    }
-
-    /* WHAT WE FIX */
-    .problems-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
-
-    .problem-item {
-      padding: 1.8rem 0;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .problem-item:nth-child(odd) {
-      padding-right: 2rem;
-      border-right: 1px solid var(--rule);
-    }
-
-    .problem-item:nth-child(even) {
-      padding-left: 2rem;
-    }
-
-    .problem-tag {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-
-    .problem-item h3 {
-      font-family: 'Lora', serif;
+    .process-step p {
+      color: rgba(255, 255, 255, 0.72);
       font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      line-height: 1.35;
+      line-height: 1.65;
     }
 
-    .problem-item p {
-      font-size: 0.875rem;
-      color: var(--ink-light);
-      line-height: 1.6;
-      font-weight: 300;
-    }
-
-    /* TESTIMONIAL */
-    .testimonial {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 4rem 2rem;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .testimonial blockquote {
-      font-family: 'Lora', serif;
-      font-size: 1.3rem;
-      font-style: italic;
-      font-weight: 400;
-      color: var(--ink);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-
-    .testimonial-source {
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink-light);
-      margin-bottom: 2rem;
-    }
-
-    .results-grid {
+    /* PROOF */
+    .proof-strip {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--rule);
+      margin-top: 3rem;
     }
 
-    .result-item {}
-
-    .result-change {
-      font-family: 'Lora', serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 0.2rem;
+    .proof-item {
+      padding: 0;
     }
 
-    .result-label {
-      font-size: 0.78rem;
-      color: var(--ink-light);
-      line-height: 1.4;
+    .proof-value {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.55rem;
+    }
+
+    .proof-label {
+      color: var(--ink-soft);
+      font-size: 0.98rem;
+      max-width: 16rem;
     }
 
     /* CTA */
-    .cta-section {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 5rem 2rem;
+    .cta-band {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(14, 124, 134, 0.12), transparent 45%),
+        linear-gradient(180deg, var(--mist), var(--paper));
+      border-top: 1px solid var(--line);
     }
 
-    .cta-section h2 {
-      font-family: 'Lora', serif;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 400;
-      line-height: 1.3;
-      margin-bottom: 1rem;
+    .cta-band .section {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2.5rem;
+      align-items: center;
     }
 
-    .cta-section h2 em { font-style: italic; color: var(--accent); }
+    .cta-band h2 { max-width: 14ch; }
 
-    .cta-section p {
-      font-size: 1rem;
-      color: var(--ink-light);
-      font-weight: 300;
-      line-height: 1.7;
-      max-width: 520px;
-      margin-bottom: 2rem;
+    .cta-note {
+      margin-top: 1.5rem;
+      color: var(--ink-soft);
+      font-size: 0.98rem;
     }
 
-    .cta-btn {
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      padding: 0.85rem 2rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      letter-spacing: 0.03em;
+    .cta-note a {
+      color: var(--accent-deep);
+      font-weight: 600;
       text-decoration: none;
-      transition: background 0.2s;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease;
     }
 
-    .cta-btn:hover { background: var(--accent-light); }
+    .cta-note a:hover { border-bottom-color: var(--accent-deep); }
+
+    .cta-panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+      padding: 1.75rem;
+    }
+
+    .cta-panel h3 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .cta-panel p {
+      color: var(--ink-soft);
+      margin-bottom: 1.35rem;
+      font-size: 0.98rem;
+    }
 
     /* FOOTER */
     footer {
-      border-top: 1px solid var(--rule);
-      padding: 2rem;
-      max-width: 780px;
-      margin: 0 auto;
+      border-top: 1px solid var(--line);
+      padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem);
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
+      align-items: center;
       gap: 1rem;
+      flex-wrap: wrap;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      max-width: var(--max);
+      margin: 0 auto;
+      width: 100%;
     }
 
-    .footer-logo {
-      font-family: 'Lora', serif;
-      font-size: 0.95rem;
-      font-weight: 600;
+    footer strong {
+      font-family: var(--font-display);
       color: var(--ink);
+      font-weight: 700;
+      letter-spacing: -0.02em;
     }
 
-    .footer-right {
-      font-size: 0.8rem;
-      color: var(--ink-light);
-    }
-
-    .footer-right a {
-      color: var(--ink-light);
+    footer a {
+      color: var(--ink-soft);
       text-decoration: none;
     }
 
-    .footer-right a:hover { color: var(--ink); }
+    footer a:hover { color: var(--ink); }
 
-    /* RESPONSIVE */
-    @media (max-width: 640px) {
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .deliverables-grid { grid-template-columns: 1fr; }
-      .problems-grid { grid-template-columns: 1fr; }
-      .problem-item:nth-child(odd) { padding-right: 0; border-right: none; }
-      .problem-item:nth-child(even) { padding-left: 0; }
-      .results-grid { grid-template-columns: repeat(2, 1fr); }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @keyframes heroZoom {
+      from { transform: scale(1.08); }
+      to { transform: scale(1); }
+    }
+
+    @media (max-width: 860px) {
       .nav-links { display: none; }
-      footer { flex-direction: column; }
+      .nav-links.is-open {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        right: 1rem;
+        left: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background: rgba(16, 24, 32, 0.96);
+        padding: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .nav-links.is-open a {
+        padding: 0.85rem 0.75rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .nav-links.is-open a:last-child { border-bottom: 0; }
+      .nav-toggle { display: inline-flex; }
+
+      .who-grid,
+      .process-steps,
+      .proof-strip,
+      .cta-band .section {
+        grid-template-columns: 1fr;
+      }
+
+      .who-figure,
+      .who-figure img { min-height: 260px; }
+
+      .service-item {
+        grid-template-columns: 2.75rem 1fr;
+        gap: 0.75rem;
+      }
+
+      .hero-inner { padding-bottom: 3.25rem; }
+      .hero-brand { font-size: clamp(2.4rem, 12vw, 3.4rem); }
+      .hero h1 { max-width: 20ch; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+      .nav-brand,
+      .nav-links,
+      .hero-brand,
+      .hero h1,
+      .hero-sub,
+      .hero-actions,
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .hero-media img { transform: none; }
     }
   </style>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
 
-  <nav>
-    <a href="#" class="nav-logo">Clearline AI</a>
-    <ul class="nav-links">
-      <li><a href="#process">The Concierge Model</a></li>
-      <li><a href="#deliverables">What You Get</a></li>
-      <li><a href="security.html">Security</a></li>
-      <li><a href="#contact">Book a Call</a></li>
+  <header class="nav">
+    <a class="nav-brand" href="#">Clearline AI</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">Menu</button>
+    <ul class="nav-links" id="nav-menu">
+      <li><a href="#offerings">Offerings</a></li>
+      <li><a href="#private">Private LLMs</a></li>
+      <li><a href="#contact" class="nav-cta">Book a call</a></li>
     </ul>
-  </nav>
+  </header>
 
-  <!-- HERO -->
-  <div class="hero-wrap">
-    <div class="hero-bg"></div>
-    <section class="hero">
-      <p class="hero-eyebrow">For Insurance Professionals</p>
-      <h1>Your team is too good for busywork.</h1>
-      <p class="hero-sub">Clearline Concierge becomes the AI side of your operations. We learn how your firm actually works, build the tools that take the busywork off your team, and run the whole thing as your business grows. Your people stay on clients while the operational drag quietly disappears.</p>
-      <a href="https://cal.com/clearlineai" target="_blank" class="hero-cta">Book a Free Discovery Call</a>
-      <p class="hero-location">Property &amp; Casualty · Life Insurance · MGAs · Brokers · Serving organizations across Canada</p>
+  <main id="main">
+    <section class="hero" aria-label="Introduction">
+      <div class="hero-media" aria-hidden="true">
+        <img
+          src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=2400&q=80&v=smb1"
+          alt=""
+          width="2400"
+          height="1600"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="hero-inner">
+        <p class="hero-brand">Clearline AI</p>
+        <h1>Websites and private LLMs for your firm.</h1>
+        <p class="hero-sub">
+          We build your site. We put a closed-loop LLM on your servers. Your sensitive data never leaves your network — and never goes to an outside AI provider.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://cal.com/clearlineai" target="_blank" rel="noopener noreferrer">Book a free call</a>
+          <a class="btn btn-ghost" href="#offerings">See the offerings</a>
+        </div>
+      </div>
     </section>
-  </div>
 
-  <!-- STATS -->
-  <div class="stats">
-    <div class="stat-item">
-      <div class="stat-num">12+</div>
-      <div class="stat-label">Hours saved per employee / week</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">4wk</div>
-      <div class="stat-label">Average time to first deployed tool</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">$0</div>
-      <div class="stat-label">Technical staff required on your end</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">10+</div>
-      <div class="stat-label">Years inside the industry building these tools</div>
-    </div>
-  </div>
-
-  <!-- PAIN INTRO -->
-  <div class="pain-intro">
-    <p>Insurance organizations of every size lose <strong>20–35% of producer time</strong> to repetitive, document-heavy workflows.</p>
-    <p>The AI revolution doesn't require a tech team. It requires someone who understands what's actually broken, and knows how to fix it inside real workflows.</p>
-  </div>
-
-  <!-- ABOUT -->
-  <section class="section" id="about">
-    <p class="section-label">The Difference</p>
-    <h2>A decade inside the industry. <em>Built to fix it from within.</em></h2>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>We spent over ten years in insurance - producing, quoting, binding, renewing, and managing accounts across commercial lines. We lived the late-night renewal pushes, the COI request pile-ups, the manual data entry that never seemed to end.</p>
-        <p>We didn't set out to build a tech company. We set out to <strong>stop losing hours every week to work that a machine should be doing.</strong> So we learned the tools, built the automations, and started using them in our own workflow.</p>
-        <p><strong>Clearline AI is not a consultant parachuting in from tech.</strong> We came up inside the industry and learned to build. Now we run that capability for firms like yours as their Concierge, so you get the expertise without having to grow it in-house.</p>
-      </div>
-      <div class="about-callouts">
-        <div class="callout">
-          <div class="callout-label">The Core Difference</div>
-          <p><strong>Industry-first, not tech-first.</strong> Most AI vendors learn insurance after the fact. We came from the brokerage floor. That means we know what's actually painful, and what a realistic solution looks like inside your real workflows.</p>
+    <div class="services-band" id="offerings">
+      <section class="section">
+        <div class="services-head reveal">
+          <p class="section-label">Two offerings</p>
+          <h2>Clear products. No consulting fog.</h2>
+          <p class="section-lead">
+            Two things we ship for small and mid-sized firms: a website that works, and a private language model that stays inside your walls.
+          </p>
         </div>
-        <div class="callout">
-          <div class="callout-label">What That Means For You</div>
-          <p><strong>No translation layer.</strong> When you describe a problem, we already know what you mean. We skip the education phase and go straight to solving.</p>
-        </div>
-        <div class="callout">
-          <div class="callout-label">What We Won't Do</div>
-          <p><strong>Oversell what AI can do.</strong> We tell you honestly when a problem is worth automating and when it isn't. The goal is to give your team their time back.</p>
-        </div>
-      </div>
+
+        <ol class="service-list">
+          <li class="service-item reveal" id="websites">
+            <div class="service-num">01</div>
+            <div>
+              <h3>Websites</h3>
+              <p>
+                Modern sites for local and regional businesses — fast, credible, and built to turn visitors into booked calls or customers. You get a finished site, not a strategy deck.
+              </p>
+              <ul class="service-points">
+                <li>Custom design matched to your business</li>
+                <li>Mobile-ready, fast-loading, easy to update</li>
+                <li>Launch-ready — not a template graveyard</li>
+              </ul>
+            </div>
+          </li>
+          <li class="service-item reveal" id="private">
+            <div class="service-num">02</div>
+            <div>
+              <h3>Private LLMs</h3>
+              <p>
+                Your own language model, hosted on your servers. Closed loop for your firm only. Prompts, documents, and client data stay on your network — they are never sent to OpenAI, Anthropic, Google, or any other LLM provider.
+              </p>
+              <ul class="service-points">
+                <li>Runs on your hardware or your private cloud</li>
+                <li>Firm-only access — no shared tenancy with outsiders</li>
+                <li>Use AI on sensitive work without the security tradeoff</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </section>
     </div>
-  </section>
 
-  <!-- CONCIERGE MODEL -->
-  <section class="section" id="process">
-    <p class="section-label">The Concierge Model</p>
-    <h2>Like having an AI team inside your firm.</h2>
-    <p class="section-lead">Clearline Concierge works in three phases.</p>
-    <div class="process-steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <div class="step-content">
-          <h3>Understand</h3>
-          <p>We start by learning your firm from the inside. Two focused sessions mapping how your work actually flows, from intake through renewal, so we know where time is leaking and what is genuinely worth automating. You come away with a clear picture of your operations and where the real wins are.</p>
+    <section class="section" id="who">
+      <div class="reveal">
+        <p class="section-label">Who it’s for</p>
+        <h2>Firms that need a site — or AI that can’t leave the building.</h2>
+      </div>
+      <div class="who-grid">
+        <div class="who-copy reveal">
+          <p>
+            Clearline AI works with small and mid-sized businesses that want a real web presence, and with firms that handle client, patient, or operational data too sensitive for public AI chatbots.
+          </p>
+          <p>
+            If your website is outdated, or your team wants LLM help <strong>without uploading confidential work to someone else’s cloud</strong>, that’s what we build.
+          </p>
+          <div class="audience-row">
+            <span>Professional firms</span>
+            <span>Clinics & practices</span>
+            <span>Local services</span>
+            <span>Trades & contractors</span>
+            <span>Retail & hospitality</span>
+          </div>
+        </div>
+        <figure class="who-figure reveal">
+          <img
+            src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=80"
+            alt="Small business team collaborating around a laptop in a bright workspace"
+            width="1400"
+            height="933"
+            loading="lazy"
+          />
+          <figcaption class="who-caption">Your site. Your servers. Your data stays yours.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="process-band" id="how">
+      <section class="section">
+        <div class="reveal">
+          <p class="section-label">How we deliver</p>
+          <h2>Scope. Build. Hand it over working.</h2>
+          <p class="section-lead">
+            Whether it’s a website or a private LLM, you get a finished system on your side — not a retainer full of workshops.
+          </p>
+        </div>
+        <div class="process-steps">
+          <article class="process-step reveal">
+            <div class="num">01</div>
+            <h3>Scope</h3>
+            <p>We align on the site goals or the private LLM setup — hardware, access, and what your team needs to do on day one.</p>
+          </article>
+          <article class="process-step reveal">
+            <div class="num">02</div>
+            <h3>Build</h3>
+            <p>We design and ship the website, or install and configure the model on your servers so it stays closed-loop inside your firm.</p>
+          </article>
+          <article class="process-step reveal">
+            <div class="num">03</div>
+            <h3>Handoff</h3>
+            <p>You go live with something that works: a public site, or a private LLM your team can use without sending data to outside providers.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <section class="section" id="proof">
+      <div class="reveal">
+        <p class="section-label">Why private</p>
+        <h2>Cloud AI is powerful. It isn’t always safe for your files.</h2>
+        <p class="section-lead">
+          Public LLM tools mean prompts and documents leave your network. A Clearline private LLM runs only for your firm, on infrastructure you control — so you get the upside without the leak risk.
+        </p>
+      </div>
+      <div class="proof-strip">
+        <div class="proof-item reveal">
+          <div class="proof-value">Local</div>
+          <div class="proof-label">Model runs on your servers — not a shared vendor cloud</div>
+        </div>
+        <div class="proof-item reveal">
+          <div class="proof-value">Closed</div>
+          <div class="proof-label">Firm-only loop — no sensitive data shared with LLM providers</div>
+        </div>
+        <div class="proof-item reveal">
+          <div class="proof-value">Yours</div>
+          <div class="proof-label">Website and AI both delivered as finished builds you own</div>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <div class="step-content">
-          <h3>Build</h3>
-          <p>We build the actual tools around your real systems: your AMS, your email stack, your team's workflow. Everything gets tested, documented, and your team gets trained on it. You end up with working automation your people can use on day one.</p>
+    </section>
+
+    <div class="cta-band" id="contact">
+      <section class="section">
+        <div class="reveal">
+          <p class="section-label">Get started</p>
+          <h2>Tell us which build you need.</h2>
+          <p class="section-lead">
+            Website, private LLM, or both. On a short call we’ll confirm fit, rough timeline, and what we’d put on your servers or launch for your business.
+          </p>
+          <p class="cta-note">
+            Or email <a href="mailto:hamza@clearlineai.ca">hamza@clearlineai.ca</a>
+          </p>
         </div>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <div class="step-content">
-          <h3>Run &amp; Improve</h3>
-          <p><strong>This is where most of the value lives.</strong> As your Concierge, we own the AI side of your operations for the long term. We keep the tools running as your software and processes change, we build new ones as needs surface, and every month we bring you the next bottleneck worth removing. Your firm keeps getting leaner without anyone on your team having to manage it.</p>
+        <div class="cta-panel reveal">
+          <h3>Book a free intro call</h3>
+          <p>Bring your current site, or the kind of work you wish you could run through AI without leaving the building.</p>
+          <a class="btn btn-ink" href="https://cal.com/clearlineai" target="_blank" rel="noopener noreferrer">Choose a time →</a>
         </div>
-      </div>
+      </section>
     </div>
-  </section>
-
-  <!-- DELIVERABLES -->
-  <section class="section" id="deliverables">
-    <p class="section-label">What You Get</p>
-    <h2>Phase one, <em>delivered.</em></h2>
-    <div class="deliverables-grid">
-
-      <div class="deliverable-card">
-        <svg class="deliverable-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-          <line x1="3" y1="9" x2="21" y2="9"></line>
-          <line x1="9" y1="21" x2="9" y2="9"></line>
-        </svg>
-        <h3>Workflow Map</h3>
-        <p>A complete diagram of your current workflows — with every handoff, delay, and bottleneck identified. This could include claims intake, submission automation, certificates of insurance, client intake automation, sales training or many more.</p>
-      </div>
-
-      <div class="deliverable-card">
-        <svg class="deliverable-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-          <polyline points="14 2 14 8 20 8"></polyline>
-          <line x1="16" y1="13" x2="8" y2="13"></line>
-          <line x1="16" y1="17" x2="8" y2="17"></line>
-          <polyline points="10 9 9 9 8 9"></polyline>
-        </svg>
-        <h3>Audit Report</h3>
-        <p>A detailed written report covering hours lost per workflow, estimated annual cost in producer time, and the specific automation opportunities ranked by impact.</p>
-      </div>
-
-      <div class="deliverable-card">
-        <svg class="deliverable-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-        </svg>
-        <h3>Build Roadmap</h3>
-        <p>A prioritized 90-day plan showing which automations to build first, in what order, with realistic timelines and projected hours-saved for each.</p>
-      </div>
-
-      <div class="deliverable-card">
-        <svg class="deliverable-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          <line x1="9" y1="10" x2="15" y2="10"></line>
-        </svg>
-        <h3>Live Walkthrough</h3>
-        <p>A 60-minute working session where we walk you and your team through the findings, answer questions, and align on next steps — virtual or in-person.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIAL -->
-  <section class="testimonial">
-    <blockquote>"We used to spend three afternoons a week just on COIs and renewal chasing. Now that entire time has been freed up to focus on value-add work for our team."</blockquote>
-    <div class="testimonial-source">Regional P&amp;C Brokerage · 18 Producers</div>
-    <div class="results-grid">
-      <div class="result-item">
-        <div class="result-change">4 days → 8 min</div>
-        <div class="result-label">COI turnaround time</div>
-      </div>
-      <div class="result-item">
-        <div class="result-change">41% → 79%</div>
-        <div class="result-label">Renewal response rate</div>
-      </div>
-      <div class="result-item">
-        <div class="result-change">~14 hrs</div>
-        <div class="result-label">Hours saved per week</div>
-      </div>
-      <div class="result-item">
-        <div class="result-change">30 days</div>
-        <div class="result-label">Time to first automation</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section" id="contact">
-    <p class="section-label">Get Started</p>
-    <h2>30 minutes to see <em>if we're a fit.</em></h2>
-    <p>Book a free call. We'll walk through how your firm works today, point to the highest-impact place to start, and show you what Clearline Concierge would look like for your team.</p>
-    <a href="https://cal.com/clearlineai" target="_blank" class="cta-btn">Book Your Free Call →</a>
-  </section>
+  </main>
 
   <footer>
-    <div class="footer-logo">Clearline AI</div>
-    <div class="footer-right">
-      <a href="mailto:hamza@clearlineai.ca">hamza@clearlineai.ca</a> · Built for insurance professionals.
+    <div><strong>Clearline AI</strong></div>
+    <div>
+      <a href="mailto:hamza@clearlineai.ca">hamza@clearlineai.ca</a>
+      · Websites &amp; private LLMs for your firm
     </div>
   </footer>
 
+  <script>
+    (function () {
+      var toggle = document.querySelector(".nav-toggle");
+      var menu = document.getElementById("nav-menu");
+      if (toggle && menu) {
+        toggle.addEventListener("click", function () {
+          var open = menu.classList.toggle("is-open");
+          toggle.setAttribute("aria-expanded", open ? "true" : "false");
+          toggle.textContent = open ? "Close" : "Menu";
+        });
+        menu.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", function () {
+            menu.classList.remove("is-open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.textContent = "Menu";
+          });
+        });
+      }
+
+      var reveals = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.16, rootMargin: "0px 0px -8% 0px" }
+        );
+        reveals.forEach(function (el) { observer.observe(el); });
+      } else {
+        reveals.forEach(function (el) { el.classList.add("is-visible"); });
+      }
+    })();
+  </script>
 </body>
 </html>
